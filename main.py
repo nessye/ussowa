@@ -41,4 +41,4 @@ if __name__ == "__main__":
     for modulo in modulos:
         client.load_extension(modulo)
 
-    client.run("ODIxNTgxMTEwMjA2MDA1MjUw.YFFzCA.UlCM98BUi_4Rei0jhqw2-WEWNR8")
+    client.run("niggaz")
