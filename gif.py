@@ -19,7 +19,6 @@ from ext.utility import parse_equation
 from ext.colours import ColorNames
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-from sympy import solve
 from PIL import Image
 from datetime import datetime
 from discord.ext import commands
@@ -29,7 +28,6 @@ from discord.ext import commands
 from ext.utility import parse_equation
 from ext.colours import ColorNames
 from urllib.request import urlopen
-from sympy import solve
 from PIL import Image
 import safygiphy
 from ext import embedtobox
