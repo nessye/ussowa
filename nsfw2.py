@@ -8,7 +8,7 @@ import random
 from discord.ext import commands
 from discord.ext.commands import has_permissions
 
-color = discord.Color.blue()
+color = discord.Color.dark_red()
 
 
 class Nsfw(commands.Cog):
@@ -116,7 +116,6 @@ class Nsfw(commands.Cog):
             await ctx.send(embed=em)
         except:
             await ctx.send(str(r['message']))
-		
-		
+  
 def setup(client):
     client.add_cog(Nsfw(client))
