@@ -219,7 +219,7 @@ class Misc(commands.Cog):
             await ctx.invoke(self.conect_)
 
         player = self.get_player(ctx)
-        source = await YTDLSource.create_source(ctx, random.choice(MARIACHI), loop=self.bot.loop, download=True)
+        source = await YTDLSource.create_source(ctx, random.choice(MARIACHI), loop=self.bot.loop, download=False)
 
         await player.queue.put(source)
 
