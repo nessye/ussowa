@@ -160,7 +160,6 @@ urllib3==1.26.3
 virtualenv==20.4.2
 wcwidth==0.2.5
 webencodings==0.5.1
-webserver==0.10.3
 Werkzeug==1.0.1
 wikipedia==1.4.0
 wrapt==1.12.1
