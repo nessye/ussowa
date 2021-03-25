@@ -27,7 +27,7 @@ class Information(commands.Cog):
                 return await ctx.send('Server não encontrado!')
 
         e = discord.Embed()
-        e.color = discord.Color.blue()
+        e.color = discord.Color.dark_red()
 
         voice = ''
         text = ''
@@ -72,9 +72,9 @@ class Information(commands.Cog):
                 break
 
         if str(role.colour):
-            color = discord.Color.blue()
+            color = discord.Color.dark_red()
         else:
-            color = discord.Color.dark_blue()
+            color = discord.Color.dark_red()
             color = role.colour
 
         em = discord.Embed(color=color)
@@ -93,11 +93,11 @@ class Information(commands.Cog):
     @commands.command(aliases=['av'])
     async def useravatar(self, ctx, *, member : discord.Member=None):
         '''Manda o avatar de um usuário específico.'''
-        member = member or ctx.author
+        member = member or ctx.author.mention
         av = str(member.avatar_url)
         if ".gif" in av:
             av += "&f=.gif"
-        color = discord.Color.blue()
+        color = discord.Color.dark_red()
         em = discord.Embed(url=av, color=color)
         em.set_author(name=str(member), icon_url=av)
         em.set_image(url=av)
@@ -119,7 +119,7 @@ class Information(commands.Cog):
     async def serverlogo(self, ctx):
         '''Manda o ícone do servidor.'''
         icon = str(ctx.guild.icon_url)
-        color = discord.Color.blue()
+        color = discord.Color.dark_red()
         server = ctx.guild
         em = discord.Embed(color=color, url=icon)
         em.set_author(name=server.name, icon_url=icon)
@@ -156,14 +156,14 @@ class Information(commands.Cog):
                     server = self.bot.get_guild(int(msg))
                     if not server:
                         return await ctx.send(
-                                              self.bot.bot_prefix + 'Server not found.')
+                                              self.bot.bot_prefix + 'Server não encontrado.')
                 except:
                     for i in self.bot.guilds:
                         if i.name.lower() == msg.lower():
                             server = i
                             break
                     if not server:
-                        return await ctx.send(self.bot.bot_prefix + 'Could not find server. Note: You must be a member of the server you are trying to search.')
+                        return await ctx.send(self.bot.bot_prefix + 'Não foi possivel encontrar um servidor.')
             else:
                 server = ctx.message.guild
         
@@ -176,13 +176,12 @@ class Information(commands.Cog):
         categories = len(server.channels) - text_channels - voice_channels
 
         embed = discord.Embed(
-            title=name + "Informações do server",
-            description=description,
-            color=discord.Color.blue()
+            title="Informações do server",
+            color=discord.Color.dark_red()
         )
         embed.set_thumbnail(url=icon)
-        embed.add_field(name="Nome", value=server.name)
-        embed.add_field(name="Dono", value=owner, inline=True)
+        embed.add_field(name="Nome", value=name)
+        embed.add_field(name="Dono", value=ctx.guild.owner)
         embed.add_field(name="ID do server", value=id, inline=True)
         embed.add_field(name="Região", value=region, inline=True)
         embed.add_field(name="Quantidade de membros", value=memberCount, inline=True)
@@ -190,10 +189,10 @@ class Information(commands.Cog):
         embed.add_field(name="Quantidade de cargos", value=str(role_count))
         embed.add_field(name="Criado em", value=server.created_at.__format__('%A, %d. %B %Y @ %H:%M:%S'))
         embed.add_field(name="Nivel de verificado", value=str(server.verification_level))
-        embed.add_field(name="Text Channels", value=text_channels)
-        embed.add_field(name="Voice Channels", value=voice_channels)
-        embed.add_field(name="Categories", value=categories)
-        embed.add_field(name="Roles", value=len(server.roles))
+        embed.add_field(name="Canais de texto", value=text_channels)
+        embed.add_field(name="Canais de voz", value=voice_channels)
+        embed.add_field(name="Categorias", value=categories)
+        embed.add_field(name="Cargos", value=len(server.roles))
         
         await ctx.send(embed=embed)
     
@@ -203,7 +202,7 @@ class Information(commands.Cog):
     async def userinfo(self, ctx, user: discord.Member):
         '''Mostra informações de um usuário específico.'''
         embed = discord.Embed(
-            color = discord.Color.blue(),
+            color = discord.Color.dark_red(),
             title=f"{user}"
         )
 
@@ -237,7 +236,7 @@ class Information(commands.Cog):
             data.description = "**Informação sobre o canal:** " + channel.mention
         if hasattr(channel, 'changed_roles'):
             if len(channel.changed_roles) > 0:
-                data.color = discord.Colour.green() if channel.changed_roles[0].permissions.read_messages else discord.Colour.red()
+                data.color = discord.Colour.dark_red() if channel.changed_roles[0].permissions.read_messages else discord.Colour.red()
         if isinstance(channel, discord.TextChannel): 
             _type = "Texto"
         elif isinstance(channel, discord.VoiceChannel): 
@@ -288,10 +287,10 @@ class Information(commands.Cog):
 
     @commands.command(aliases=["e"])
     @commands.guild_only()
-    async def emotes(self, ctx):
+    async def emojis(self, ctx):
         """Mostra todos os emotes disponíveis no server."""
         unique_emojis = set(ctx.message.guild.emojis)
-        em = discord.Embed(timestamp=datetime.datetime.now(), title='Emotes [%s]' % len(unique_emojis), colour=discord.Color.blue())
+        em = discord.Embed(timestamp=datetime.datetime.now(), title='Emotes [%s]' % len(unique_emojis), colour=discord.Color.dark_red())
         if unique_emojis:
             fields = []
             field = ''
