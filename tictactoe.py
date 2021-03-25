@@ -37,7 +37,7 @@ class Misc(commands.Cog):
         pass
 
     @ttt.command()
-    async def tictactoe(self, ctx, p1: discord.Member, p2: discord.Member = None):
+    async def start(self, ctx, p1: discord.Member, p2: discord.Member = None):
         """Use o comando para começar a jogar."""
         if p2 == None:
             p2 = ctx.author
@@ -114,7 +114,6 @@ class Misc(commands.Cog):
                             line += " " + board[x] 
                     
                 checkWinner(winningConditions, mark)
-                print(count)
                 if gameOver == True:
                     await ctx.send(mark + " Você ganhou.")
                 elif count >= 9:
