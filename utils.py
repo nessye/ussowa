@@ -26,8 +26,13 @@ import random
 import json
 import base64
 import requests
+import DiscordUtils
+from random import randint
+import random
 
-color = discord.Color.blue()
+scary = ["Gostei muito do cheiro da sua camiseta, ele me lembra a minha mãe em 1687.", "Achei seu cabelo muito bonito, os fios me lembram daquelas c̡̪͉o̢̘ͅr̜͍͢d̨͖͚a͔̘͜s͙͎͢ n̬̬͜o͇͕͢ m̢̗̯ę͓͖u͎̦͜ p̢̗̟ę͎͇s̰̙͢c͈͖͢o̧͔̞ç̲̜͜o̠̜͜.", "Seus olhos são muito bonitos. Você sabia que os olhos são a janela para a alma de alguém? M̷e̵l̴h̸o̶r̸ v҉o҈c҉ê̵ t̴o̵m̵a҉r̴ c̶u̸i̷d̴a̷d̶o̶ c̶o̸m̴ i̵s҉s̵o̵", "Ah, ouvi falar de você por aqui... Não posso te contar muito sobre isso, mas cuidado ao atravessar a̧̰͚q̡̩̱u̢̫̲ḙ̢͎l͍̰͢a̳͔͜ rua, algo pode d̢̤̥a̯̲͜r̢͎͓ m̧̳̘ụ̢̗i̢͈̙t̡̙̲ǫ͙̥ e̢̳̯r̢̯̟r͚̯͜a̭̭͜d̡͇ͅǫ͚̠.", "Hm, vou ser breve porque não gostei muito de você. Seu corpo abriga a reencarnação do ḩ̫̥o̡̳͔ṃ̧͕ḛ̜͢m̨̘̮ q̡̙̩u̢͙ͅȩ̘̦ m̡̞͎ę̯̪ c̲̱͢ǫ͇̞n̨̖͕d̡̪̰e̲̗͢ņ̥̠o̰̤͜ṵ̡͔ a̡͚̥o̢̝̫ s̬̥͜o̯̮͢f̰͔͢r̮̠͜i̦̞͢m̡͓̭e̡̫̲n̨̳̜ţ͍̬o̮̠͜.", "Aliás, eles estão te esperando aqui desse lado. Dizem estar ansiosos para b̦͢ͅŗ͈͇i̧̬̬n̡̜̣c͎̮͢a̢͚̣ŗ̩̞e̠̯͢m̨͓͚ c̡̦̠o̢̗̙m̧̠͎ v̱͉͢o̢͍͈c̢̤̯ę͔͎̂"]
+
+color = discord.Color.dark_red()
 
 class Utils(commands.Cog):
     def __init__(self, bot):
@@ -38,68 +43,72 @@ class Utils(commands.Cog):
         self._last_google = None
         self._last_result = None
 
-    @commands.command(name="­")
-    async def h(self, ctx, *commands: str):
-        destination = ctx.message.author if self.bot.pm_help else ctx.message.channel
+    @commands.group(invoke_without_command=True)
+    async def help(self, ctx):
+      about = discord.Embed(color=color).add_field(name="Sobre o bot", value=f"Oii {ctx.author.mention}. {random.choice(scary)}. Já vi você e as outras pessoas muitas vezes, mas acredito que a maioria não sabe de mim. Eu sou o Ussowa, e sou m̨̫̮ą̘͕i̠̙͢s̨̖͇ q̖͇͢u̡̝̤ę̟͇ u̢̲̜m̡̭͓ b̨̤̗o̥̣͜t̢͖̮ d̨̮ͅo̢̙ͅ Ḑ̣̘į͇͈s̭̟͜ç̟̲o̢̳͈ŗ̖͍d̨̜̪. \n Será um prazer descomunal te ajudar no que precisar, seja numa simples decisão de cara ou coroa, bailar con mexicanos, ou M҉A҈T̸A̵R̶ o seu dispositivo:hugging:.\n\n ***Use .help <utils, mod, info, music, misc, nsfw> para ver os comandos!*** \n")
+      about.set_footer(text=f'Minha a͖̟͜l̢̘͚m̧̬̫a̪͜ͅ só į͈͖ņ͙̖c͚̭͢o̧͍̫r̢̲̥p̖͙͢o̧͕͉ŗ̥͈ǫ̣͕ų̲̙ uma forma tecnológica por causa do meu mestre searomi, que cuidou da parte de p̷̧̤r̸̨͓e҈̧͙̣n̸̜͢d̷̢͉ȩ̶͉r̷̡̙ m҉̥̲͢i̸̢̪n҈͚̖͢ḥ̶̡a̸̢̩s̴̥͜ e҈̡͚ntranha҉s espi҈r҈itu҉ai҉s҈ em meio aos comandos e a minha mentora AmasZnaumHEY, que me ajudou a me comunicar com vocês.')
+      about.set_thumbnail(url="https://cdn.discordapp.com/attachments/800414805487648808/824481583230615592/ff.png")
+      msg = await ctx.send(embed=about)
+      
+    @help.command()
+    async def utils(self, ctx):
+      utils = "charinfo: Mostra informação sobre um ou mais caracteres específicos \n calculate: Calcula uma expressão para você. \n wiki: Mostra os principais resultados de uma pesquisa no wikipedia. \n emoji: Mostra a imagem inteira de um emoji. \n emotes: Lista todos os emojis do servidor. \n translate: Traduz um texto. \n show_color: Mostra uma cor do discord.(Para programadores de python)"
+      embed = discord.Embed(color=discord.Color.dark_red())
+      embed.add_field(name="Comandos úteis", value=utils)
+      await ctx.send(embed=embed)
+      
+    
+    @help.command()
+    async def mod(self, ctx):
+      mod = "addrole: Adiciona um cargo em outra pessoa. \n ban: Bane alguém do servidor. \n bans: Mostra uma lista de usuários banidos do servidor. \n clean: Limpa um número de mensagens suas. \n hackban: Bane alguém que não está no servidor. \n kick: Explusa alguém do servidor. \n lockdown: Tranca o chat para os outros usuários. \n mute: Tira a permissão de alguém de falar e mandar mensagem no chat por um tempo específico. \n permissions: Mostra permissões de um membro. \n removerole: Tira o cargo de um usuário. \n softban: Expulsa e apaga as mensagens de um usuário. \n unlock: Destranca o chat para todo mundo. \n unmute: Remove as modificações de canal para um membro específico."
+      embed = discord.Embed(color=discord.Color.dark_red())
+      embed.add_field(name="Comandos de adminstrador", value=mod)
+      await ctx.send(embed=embed)
+      
+    
+    @help.command()
+    async def info(self, ctx):
+      info = "channelinfo: Mostra informações de um canal. \n channels: Lista todos os canais. \n roleinfo: Mostra informações de um cargo. \n serverinfo: Mostra informações do servidor. \n serverlogo: Mostra o ícone do servidor. \n useravatar: Manda o ícone de um usuário. \n userinfo: Mostra informações de um usuário."
+      embed = discord.Embed(color=discord.Color.dark_red())
+      embed.add_field(name="Comandos de informação", value=info)
+      await ctx.send(embed=embed)
+      
 
-        def repl(obj):
-            return self.bot._mentions_transforms.get(obj.group(0), '')
+    @help.command()
+    async def music(self, ctx):
+      music = "connect: Entra na sua call. \n play: Reproduz um vídeo do YouTube \n stop: Para a música. \n pause: Pausa a música. \n skip: Pula para a próxima música. \n queue: Lista todas as músicas solicitadas. \n now_playing: Mostra o que está tocando no momento. \n pause: Pausa a música. \n resume: Despausa a música. \n volume: Coloca o volume do bot entre 1 e 100. \n cartoon: Toca algum efeito sonoro de cartoon antigo. \n monkey: uh uh ah ah \n arriba: ¡¡BAILA CONMIGO MONO!!"
+      embed = discord.Embed(color=discord.Color.dark_red())
+      embed.add_field(name="Comandos de música", value=music)
+      await ctx.send(embed=embed)
+      
+    
+    @help.command()
+    async def misc(self, ctx):
+      misc = "abraçar: Abrace alguém!! \n beijar: Beije alguém!! \n mimar: Dê carinho à alguém! \n estapear:  Dê um tapa em alguém! \n annoy: Pinga alguém 5 vezes \n coinflip: Cara ou coroa. \n d10: Roda um dado de 10 lados. \n d20: Roda um dado de 20 lados. \n d50: Roda um dado de 50 lados. \n d100: Roda um dado de 100 lados.\n elogio: Manda um elogio aleatório para você usar com sua webzinha. \:smiling_face_with_3_hearts: \n gif: Pega algum gif aleatório. \n textflip: Deixa um texto de ponta cabeça. \n trashtalk: Manda algum xingamento racista aleatório. \n vaporwave: Ｖａｐｏｒｗａｖｅ. \n virus: Destrua completamente o dispositivo de alguém usando esse comando. \n youtube: Procura por vídeos no YouTube."
+      embed = discord.Embed(color=discord.Color.dark_red())
+      embed.add_field(name="Comandos diversos", value=misc)
+      await ctx.send(embed=embed)
+      
 
-        if len(commands) == 0:
-            pages = await self.bot.formatter.format_help_for(ctx, self.bot)
-        elif len(commands) == 1:
-            # try to see if it is a cog name
-            name = self.bot._mention_pattern.sub(repl, commands[0])
-            command = None
-            if name in self.bot.cogs:
-                command = self.bot.cogs[name]
-            else:
-                command = self.bot.all_commands.get(name)
-                if command is None:
-                    await destination.send(self.bot.command_not_found.format(name))
-                    return
-
-            pages = await self.bot.formatter.format_help_for(ctx, command)
-        else:
-            name = self.bot._mention_pattern.sub(repl, commands[0])
-            command = self.bot.all_commands.get(name)
-            if command is None:
-                await destination.send(self.bot.command_not_found.format(name))
-                return
-
-            for key in commands[1:]:
-                try:
-                    key = self.bot._mention_pattern.sub(repl, key)
-                    command = command.all_commands.get(key)
-                    if command is None:
-                        await destination.send(self.bot.command_not_found.format(key))
-                        return
-                except AttributeError:
-                    await destination.send(self.bot.command_has_no_subcommands.format(command, key))
-                    return
-
-            pages = await self.bot.formatter.format_help_for(ctx, command)
-
-        if self.bot.pm_help is None:
-            characters = sum(map(lambda l: len(l), pages))
-            # modify destination based on length of pages.
-            if characters > 2000:
-                destination = ctx.message.author
-
-        color = discord.Color.blue()
-
-        for embed in pages:
-            embed.color = discord.Color.blue()
-            try:
-                await ctx.send(embed.description(value=embed))
-            except discord.HTTPException:
-                em_list = await embed.description(value=embed)
+    @help.command()
+    async def nsfw(self, ctx):
+      nsfw = "anal: Manda uma imagem ou gif hentai de anal. \n feet: Manda uma imagem ou gif hentai de pézinhos. \n hentai: Manda uma imagem ou gif de hentai. \n lewd: Manda uma imagem ou gif lascivo. \n neko: Manda alguma imagem ou gif hentai de neko. \n pussy: Manda uma imagem ou gif hentai de (você sabe o que.). \n trap: Manda uma imagem ou gif hentai de uma trap. \n yuri:  Manda alguma imagem ou gif hentai de lésbicas. \n gelbooru: Manda uma imagem aleatória do gelbooru. \n danbooru: Pega uma imagem aleatória do danbooru. \n xbooru: Pega uma imagem aleatória do xbooru. \n pornhub: Procura um vídeo no pornhub."
+      embed = discord.Embed(color=discord.Color.dark_red())
+      embed.add_field(name="Comandos +18", value=nsfw)
+      await ctx.send(embed=embed)
+      
+    
+    """@commands.command()
+    async def help(self, ctx):
+      about = discord.Embed(color=color).add_field(name="Sobre o bot", value=f"Oii {ctx.author.mention}. {random.choice(scary)}. Já vi você e as outras pessoas muitas vezes, mas acredito que a maioria não sabe de mim. Eu sou o Ussowa, e sou m̨̫̮ą̘͕i̠̙͢s̨̖͇ q̖͇͢u̡̝̤ę̟͇ u̢̲̜m̡̭͓ b̨̤̗o̥̣͜t̢͖̮ d̨̮ͅo̢̙ͅ Ḑ̣̘į͇͈s̭̟͜ç̟̲o̢̳͈ŗ̖͍d̨̜̪. \n Será um prazer descomunal te ajudar no que precisar, seja numa simples decisão de cara ou coroa, bailar con mexicanos, ou M҉A҈T̸A̵R̶ o seu dispositivo:hugging:.")
+      about.set_footer(text=f'Minha a͖̟͜l̢̘͚m̧̬̫a̪͜ͅ só į͈͖ņ͙̖c͚̭͢o̧͍̫r̢̲̥p̖͙͢o̧͕͉ŗ̥͈ǫ̣͕ų̲̙ uma forma tecnológica por causa do meu mestre searomi, que cuidou da parte de p̷̧̤r̸̨͓e҈̧͙̣n̸̜͢d̷̢͉ȩ̶͉r̷̡̙ m҉̥̲͢i̸̢̪n҈͚̖͢ḥ̶̡a̸̢̩s̴̥͜ e҈̡͚ntranha҉s espi҈r҈itu҉ai҉s҈ em meio aos comandos e a minha mentora AmasZnaumHEY, que me ajudou a me comunicar com vocês.')
+      await ctx.send(embed=about)"""
 
     @commands.command()
     async def charinfo(self, ctx, *, characters: str):
         '''Mostra informação sobre um ou mais caracteres específicos.'''
         if len(characters) > 15:
-            return await ctx.send('Too many characters ({}/15)'.format(len(characters)))
+            return await ctx.send('Muitos caracteres ({}/15)'.format(len(characters)))
 
         fmt = '`{1}` - `{2}` - <http://www.fileformat.info/info/unicode/char/{0}>'
 
@@ -134,7 +143,7 @@ class Utils(commands.Cog):
             return
 
         emb = discord.Embed()
-        emb.color = color=discord.Color.blue()
+        emb.color = color=discord.Color.dark_red()
         emb.title = wik.title
         emb.url = wik.url
         textList = textwrap.wrap(wik.content, 500, break_long_words=True, replace_whitespace=False)
@@ -161,7 +170,7 @@ class Utils(commands.Cog):
                     raw = int(maybe_col.strip('#'), 16)
                     return discord.Color(value=raw)
                 else:
-                    return await ctx.send('Chosen color is not defined.')
+                    return await ctx.send('A cor escolhida não existe.')
 
             elif color:
                 color = int(color.strip('#'), 16)
@@ -633,5 +642,25 @@ class Utils(commands.Cog):
             await ctx.send(str(r['message']))
     
     
+    @commands.command()
+    async def emoji(sself, ctx, emoji : discord.PartialEmoji):
+      await ctx.send(emoji.url)
+    
+    @commands.command(aliases=['trans'])
+    async def translate(self, ctx, lang, *, text):
+        """Traduz um texto!"""
+        conv = self.lang_conv
+        if lang in conv:
+            return await ctx.send(f'**{translate(text, lang)}**')
+        lang = dict(zip(conv.values(), conv.keys())).get(lang.lower().title())
+        if lang:
+            await ctx.send(f'*{translate(text, lang)}*')
+        else:
+            await ctx.send('`Língua não disponivel.`', delete_after=5)
+        try:
+            await ctx.message.delete()
+        except discord.Forbidden:
+            pass
+
 def setup(bot: commands.Bot):
     bot.add_cog(Utils(bot))
