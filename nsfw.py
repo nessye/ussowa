@@ -42,7 +42,7 @@ class Nsfw(commands.Cog):
             image = soup.find(id="image").get("src")
             last = str(image.split('?')
                        [-2]).replace('//', '/').replace(':/', '://')
-            em = discord.Embed(colour=discord.Color.blue())
+            em = discord.Embed(colour=discord.Color.dark_red())
             em.description = f'[Link da imagem inteira*]({last})'
             em.set_image(url=last)
             em.set_footer(text='* clique no link por sua conta e risco!')
@@ -76,7 +76,7 @@ class Nsfw(commands.Cog):
             partial = soup.find(id="image").get("src")
             image = partial.replace('//', '/').replace(':/', '://')
 
-            em = discord.Embed(colour=discord.Color.blue())
+            em = discord.Embed(colour=discord.Color.dark_red())
             em.description = f'[Link da imagem inteira*]({image})'
             em.set_image(url=image)
             em.set_footer(text='* clique no link por sua conta e risco!')
@@ -113,7 +113,7 @@ class Nsfw(commands.Cog):
             partial = soup.find(id="image").get("src")
             image = partial.replace('//', '/').replace(':/', '://')
 
-            em = discord.Embed(colour=discord.Color.blue())
+            em = discord.Embed(colour=discord.Color.dark_red())
             em.description = f'[Link da imagem inteira*]({image})'
             em.set_image(url=image)
             em.set_footer(text='* clique no link por sua conta e risco!')
@@ -143,7 +143,6 @@ class Nsfw(commands.Cog):
         search_results = re.findall(r'viewkey=ph(.{13})',
                                     htm_content.read().decode())
         await ctx.send('https://pt.pornhub.com/view_video.php?viewkey=ph' + search_results[0])
-
 
 def setup(bot):
     bot.add_cog(Nsfw(bot))
