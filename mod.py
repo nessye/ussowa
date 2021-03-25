@@ -18,7 +18,7 @@ class Mod(commands.Cog):
     async def format_mod_embed(self, ctx, user, success, method, duration = None, location=None):
         emb = discord.Embed(timestamp=ctx.message.created_at)
         emb.set_author(name=method.title(), icon_url=user.avatar_url)
-        emb.color = discord.Color.blue()
+        emb.color = discord.Color.dark_red()
         emb.set_footer(text=f'User ID: {user.id}')
         if success:
             if method == 'ban' or method == 'hackban':
@@ -104,7 +104,7 @@ class Mod(commands.Cog):
 
         em = discord.Embed(title=f'Lista de membros banidos ({len(bans)}):')
         em.description = ', '.join([str(b.user) for b in bans])
-        em.color = discord.Color.blue()
+        em.color = discord.Color.dark_red()
 
         await ctx.send(embed=em)
 
@@ -224,7 +224,7 @@ class Mod(commands.Cog):
             success = False
         else:
             success = True
-        emb = await self.format_mod_embed(ctx, ctx.author, success, 'channel-lockdown', 0, channel)
+        emb = await self.format_mod_embed(ctx, ctx.author.mention, success, 'channel-lockdown', 0, channel)
         await ctx.send(embed=emb)
     
     @lockdown.command()
@@ -238,7 +238,7 @@ class Mod(commands.Cog):
             success = False
         else:
             success = True
-        emb = await self.format_mod_embed(ctx, ctx.author, success, 'server-lockdown', 0, server)
+        emb = await self.format_mod_embed(ctx, ctx.author.mention, success, 'server-lockdown', 0, server)
         progress.delete()
         await ctx.send(embed=emb)
     
@@ -253,7 +253,7 @@ class Mod(commands.Cog):
                 perms.send_messages = True
                 await channel.set_permissions(ctx.guild.default_role, overwrite=perms)
 
-                e = discord.Embed(color=discord.Color.blue())
+                e = discord.Embed(color=discord.Color.dark_red())
                 e.set_author(name=f'Desbloqueado o canal #{ctx.channel}')
                 await ctx.send(embed=e)
             else:
@@ -276,7 +276,7 @@ class Mod(commands.Cog):
             except discord.HTTPException:
                 await ctx.send(content="Alguma coisa deu errado.", ttl=5)
             else:
-                e = discord.Embed(color=discord.Color.blue())
+                e = discord.Embed(color=discord.Color.dark_red())
                 e.set_author(icon_url="https://cdn.discordapp.com/attachments/800414805487648808/822065245941530654/daer.png",
                              name="Soft Banned: " + str(member))
                 await ctx.send(embed=e)
@@ -289,7 +289,7 @@ class Mod(commands.Cog):
             true = '\n'.join(name.replace('_', ' ').title() for name, value in ctx.channel.permissions_for(member) if value is True)
             false = '\n'.join(name.replace('_', ' ').title() for name, value in ctx.channel.permissions_for(member) if value is False)
 
-            e = discord.Embed(title="Permissões", color=discord.Color.blue(), timestamp=datetime.datetime.now())
+            e = discord.Embed(title="Permissões", color=discord.Color.dark_red(), timestamp=datetime.datetime.now())
             e.set_author(name=member, icon_url=member.avatar_url)
             e.add_field(name="Permitido", value=true, inline=False)
             e.add_field(name="Negado", value=false, inline=False)
