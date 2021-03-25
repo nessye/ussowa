@@ -19,7 +19,6 @@ from ext.utility import parse_equation
 from ext.colours import ColorNames
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-from sympy import solve
 from PIL import Image
 from datetime import datetime
 from discord.ext import commands
@@ -29,7 +28,6 @@ from discord.ext import commands
 from ext.utility import parse_equation
 from ext.colours import ColorNames
 from urllib.request import urlopen
-from sympy import solve
 from PIL import Image
 import safygiphy
 from ext import embedtobox
@@ -176,7 +174,7 @@ class Misc(commands.Cog):
         if tag in nsfwgif:
             return await ctx.send('`Por favor, use os comandos de nsfw para ver coisas desse tipo.`', delete_after=5)
         gif = g.random(tag=tag)
-        color = discord.Color.blue()
+        color = discord.Color.dark_red()
         em = discord.Embed(color=color)
         em.set_image(url=str(gif.get('data', {}).get('image_original_url')))
         try:
@@ -199,7 +197,7 @@ class Misc(commands.Cog):
         Destrua completamente o dispositivo de alguém usando esse comando!
         '''
         virus = virus or 'discord'
-        user = user or ctx.author
+        user = user or ctx.author.mention
         with open('data/virus.txt') as f:
             animation = f.read().splitlines()
         base = await ctx.send(animation[0])
@@ -240,13 +238,13 @@ class Misc(commands.Cog):
         """Matemática."""
         
         person = ctx.message.author
-        user = ctx.author
+        user = ctx.author.mention
 
         if formula == None:
             # How can it calculate an empty message? Reee!
             msg = f'\u200BUso: `{ctx.prefix}{ctx.invoked_with} [qualquer fórmula matemática]`'
             e = discord.Embed()
-            e.color = discord.Color.blue()
+            e.color = discord.Color.dark_red()
             e.description = f'{msg}'
             await ctx.send(embed=e)
             return
@@ -257,7 +255,7 @@ class Misc(commands.Cog):
             # If there's a problem in the input, show examples
             msg = f'Você escreveu errado \nTente algum desses:'
             e = discord.Embed()
-            e.color = discord.Color.blue()
+            e.color = discord.Color.dark_red()
             e.description = f'\u200B{msg}'
             e.add_field(name='multiplicação', value="`num` * `num`", inline=True)
             e.add_field(name='divisão', value="`num` / `num`", inline=True)
@@ -271,7 +269,7 @@ class Misc(commands.Cog):
 
         # Correct input prints correct answer
         e = discord.Embed()
-        e.color = discord.Color.blue()
+        e.color = discord.Color.dark_red()
         e.add_field(name='Conta:', value=f'```{formula}```', inline=True)
         e.add_field(name='Resultado:', value=f'```{round(answer, 2)}```', inline=True)
         await ctx.send(embed=e)
@@ -366,7 +364,7 @@ class Misc(commands.Cog):
     async def daered(self, ctx):
         '''Daered.'''
         embed = discord.Embed(
-            color = discord.Color.blue(),
+            color = discord.Color.dark_red(),
         )
         embed.set_image(url=f"{random.choice(daered)}") 
 
@@ -376,7 +374,7 @@ class Misc(commands.Cog):
     async def masonfoxworth(self, ctx):
         '''masonfoxworth.'''
         embed = discord.Embed(
-            color = discord.Color.blue(),
+            color = discord.Color.dark_red(),
         )
         embed.set_image(url=f"{random.choice(mason)}") 
 
