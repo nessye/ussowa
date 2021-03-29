@@ -153,12 +153,6 @@ class MusicPlayer(commands.Cog):
             source.cleanup()
             self.current = None
 
-            try:
-                # We are no longer playing this song...
-                await self.np.delete()
-            except discord.HTTPException:
-                pass
-
     def destroy(self, guild):
         return self.bot.loop.create_task(self._cog.cleanup(guild))
 
@@ -209,6 +203,8 @@ class Music(commands.Cog):
 
         return player
 
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.guild_only()
     @commands.command(name='connect', aliases=['join'])
     async def connect_(self, ctx):
         """Entra no mesmo canal que você."""
@@ -233,6 +229,8 @@ class Music(commands.Cog):
             except asyncio.TimeoutError:
                 raise VoiceConnectionError(f'Movendo para o canal: <{channel}> tempo esgotado.')
 
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.guild_only()
     @commands.command(name='play', aliases=['sing'])
     async def play_(self, ctx, *, search: str):
         """Toca a música ou o vídeo desejado."""
@@ -251,6 +249,8 @@ class Music(commands.Cog):
 
         await player.queue.put(source)
 
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.guild_only()
     @commands.command(name='pause')
     async def pause_(self, ctx):
         """Pausa a música."""
@@ -264,6 +264,8 @@ class Music(commands.Cog):
         vc.pause()
         await ctx.send(f'**`{ctx.author}`**: Pausou a música!')
 
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.guild_only()
     @commands.command(name='resume')
     async def resume_(self, ctx):
         """Despausa a música."""
@@ -277,6 +279,8 @@ class Music(commands.Cog):
         vc.resume()
         await ctx.send(f'**`{ctx.author}`**: Despausou a música!')
 
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.guild_only()
     @commands.command(name='skip')
     async def skip_(self, ctx):
         """Pula pra próxima música."""
@@ -293,6 +297,8 @@ class Music(commands.Cog):
         vc.stop()
         await ctx.send(f'**`{ctx.author}`**: Pulou a música!')
 
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.guild_only()
     @commands.command(name='queue', aliases=['q', 'playlist'])
     async def queue_info(self, ctx):
         """Lista as músicas solicitadas."""
@@ -313,6 +319,8 @@ class Music(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.guild_only()
     @commands.command(name='now_playing', aliases=['np', 'current', 'currentsong', 'playing'])
     async def now_playing_(self, ctx):
         """Mostra o que está tocando no momento."""
@@ -326,8 +334,10 @@ class Music(commands.Cog):
             return await ctx.send('Eu não estou tocando nada!')
 
         player.np = await ctx.send(f'Tocando agora: `{vc.source.title}` '
-                                   f'pedido por `{vc.source.requester}`')
+                                   f'pedido por `{vc.source.requester}`', delete_after=5)
 
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.guild_only()
     @commands.command(name='volume', aliases=['vol'])
     async def change_volume(self, ctx, *, vol: float):
         """Coloca o volume do bot entre 1 e 100"""
@@ -347,6 +357,8 @@ class Music(commands.Cog):
         player.volume = vol / 100
         await ctx.send(f'**`{ctx.author}`**: Deixou o volume em **{vol}%**')
 
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.guild_only()
     @commands.command(name='stop', aliases=['leave'])
     async def stop_(self, ctx):
         """Para a música."""
@@ -357,6 +369,8 @@ class Music(commands.Cog):
 
         await self.cleanup(ctx.guild)
 
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.guild_only()
     @commands.command(name='cartoon', aliases=['funnysound'])
     async def cartoon_(self, ctx):
         """Toca algum som aleatório de cartoon antigo."""
@@ -374,7 +388,9 @@ class Music(commands.Cog):
         source = await YTDLSource.create_source(ctx, random.choice(cartoon), loop=self.bot.loop, download=False)
 
         await player.queue.put(source)
-    
+
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.guild_only()
     @commands.command(name='monke', aliases=['monkey'])
     async def monke_(self, ctx):
         """uh uh ah ah"""
@@ -391,6 +407,8 @@ class Music(commands.Cog):
 
         await player.queue.put(source)
 
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.guild_only()
     @commands.command()
     async def arriba(self, ctx):
         '''¡¡BAILA CONMIGO MONO!!'''
